@@ -1,5 +1,5 @@
 /*
-*子弹类
+*子弹类_Bullet.js
 */
 
 var Bullet=function(){
