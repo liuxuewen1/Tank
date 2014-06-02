@@ -1,5 +1,5 @@
 /*
-*×Óµ¯Àà_Bullet.js
+*?
 */
 
 var Bullet=function(){
@@ -9,19 +9,19 @@ var Bullet=function(){
 	this.bullet;
 }
 
-//ÒÆ¶¯
+//?
 Bullet.prototype.move=function(){
 	if(!this.bullet) return;
-	var attr=(this.dir==1 || this.dir==2)?"top":"left";	//·½Ïò£ºÉÏÏÂ ¶Ôtop²Ù×÷£¬×óÓÒ ¶Ôleft²Ù×÷
-	var attrVal=parseInt(getAttr(this.bullet,attr));	//»ñÈ¡µ±Ç°·½ÏòÉÏµÄÖµ
-	var isOverMaxVal=(this.dir==1||this.dir==3)?attrVal<=0:attrVal>=(BASE*26-6);	//·½Ïò£ºÉÏ×ó Ğ¡ÓÚ×î´óÖµ0·µ»Øtrue£¬ÏÂÓÒ ´óÓÚ×î´óÖµ26*16 Ôò·µ»Øtrue	
-	var speed=(this.dir==1||this.dir==3)?-1*this.speed:this.speed;//·½Ïò£ºÉÏ¡¢ÓÒ ËÙ¶ÈÎª¸º
+	var attr=(this.dir==1 || this.dir==2)?"top":"left";	// top left
+	var attrVal=parseInt(getAttr(this.bullet,attr));	//????
+	var isOverMaxVal=(this.dir==1||this.dir==3)?attrVal<=0:attrVal>=(BASE*26-6);	// Ğ¡?0true ?26*16 ??true	
+	var speed=(this.dir==1||this.dir==3)?-1*this.speed:this.speed;//? ??
 	
-	//¼ì²âÊÇ·ñÅö×²
+	//??
 	var isGo={ result:true };	
 	isGo=isHit(this.bullet, speed, attr); 
 	
-	//Åöµ½±ß½ç£¬×ÔĞĞÏûÊ§
+	//?ç£¬?
 	if(isOverMaxVal){
 		this.die(this.bullet);
 		return;
@@ -32,21 +32,21 @@ Bullet.prototype.move=function(){
 		return;
 	}
 	
-	//Èç¹û·µ»Øfalse
+	//false
 	if(!isGo.result){
 		var eleDiv=document.getElementById(isGo.eleID),
 			eleClass=eleDiv.className,
 			eleCategory=eleDiv.category,
 			bulletCategory=this.bullet.category;
 			
-		//1¡¢¿ÉÍ¨¹ıµÄÇé¿ö£º¼º·½tank¡¢¼º·½bullet¡ª¡ª²»´¦Àí
+		//1?tankbullet
 		
 		if(eleClass==SLAB){
-			//2¡¢Åöµ½Slab£¬ÎŞ·¨Í¨¹ıµÄÇé¿ö¡ª¡ª×ÔĞĞÃğÍö
+			//2Slab??
 			this.die(this.bullet);
 		}
 		else if(eleClass==WALL || bulletCategory!=eleCategory){
-			//3¡¢×Ô¼ººÍ¶Ô·½Í¬Ê±ÃğÍöÇé¿ö¡ª¡ªÅöµ½Wall »ò ¶Ô·½tank¡¢bullet
+			//3?????Wall  ?tankbullet
 			if(oGrid[isGo.iGrid] && isGo.eleID===oGrid[isGo.iGrid][isGo.index]) {
 				oGrid[isGo.iGrid].splice(isGo.index,1);			
 			}
@@ -60,7 +60,7 @@ Bullet.prototype.move=function(){
 	
 }
 
-//×Óµ¯ÃğÍö
+//?
 Bullet.prototype.die=function(bulletDiv){
 	var Tank=getTankObjByBulletID(bulletDiv.id);
 	if(!Tank) return;
@@ -69,27 +69,27 @@ Bullet.prototype.die=function(bulletDiv){
 	oMoveBox.removeChild(Tank.oBullet.bullet);
 	Tank.oBullet.bullet=Tank.oBullet=null;
 	
-	//Èç¹ûËùÊôÌ¹¿Ë´æÔÚ
-	//ÔòÔÚ×Óµ¯ÏûÊ§ÒÔºó£¬ËùÊôÌ¹¿Ë¸ô800msºó¼ÌĞø·¢Éä×Óµ¯
+	//??
+	//?????800ms?
 	setTimeout(function(){
 		if(!Tank.oTank) return;
 		Tank.oTank.shoot(Tank.oTank.tankDiv.category);
 	},1000);
 }
 
-//Í¬Ê±ÃğÍö
+//??
 Bullet.prototype.kill=function(killObj){
-	//×Ô¼ºÃğÍö
+	//?
 	this.die(this.bullet);
 	
 	var className=killObj.className;
-	//¸Éµô¶Ô·½
+	//??
 	if(className===TANK) {
 		var Tank=getTankObjByTankID(killObj.id);
 		clearInterval(Tank.oTank.tankMoveTimer);
 		clearTimeout(Tank.oTank.shootTimer);
 		Tank.oTank=Tank[Tank.oTank.tankID]=null;
-		//Èç¹ûÉäÉ±µÄÊÇMyTank£¬Ôò200msºó´´ÔìTank
+		//?MyTank200msTank
 		if(killObj.category===MYTANK){
 			var myTank=new MyTank();
 			myTank.createMyTank();

@@ -1,12 +1,12 @@
 /*
-*ÎäÆ÷¹¤³§ÀàWeaponsFactory ×ÓÀà°üÀ¨Ì¹¿ËÀà¡¢×Óµ¯Àà
+*æ­¦å™¨å·¥å‚ç±»WeaponsFactory å­ç±»åŒ…æ‹¬å¦å…‹ç±»ã€å­å¼¹ç±»
 */
 
 var WeaponsFactory=function(){
 	
 }
 
-//Éú³ÉÌ¹¿Ë
+//ç”Ÿæˆå¦å…‹
 WeaponsFactory.prototype.createTank=function(BaseObj){
 	var tank=new Tank();
 	tank.dir=BaseObj.dir;
@@ -17,15 +17,15 @@ WeaponsFactory.prototype.createTank=function(BaseObj){
 	oMoveBox.appendChild(tank.tankDiv);
 	var oThis=this;
 	tank.tankTimer=setInterval(function(){
-		tank.tankDiv.style.backgroundPosition=-256+(tank.index++)*(-32)+"px -32px";//Ì¹¿ËÉú³ÉĞ§¹û
-		//Ğ§¹ûÍê³Éºó£¬ÏÔÊ¾ÕæÕıÌ¹¿Ë
+		tank.tankDiv.style.backgroundPosition=-256+(tank.index++)*(-32)+"px -32px";//å¦å…‹ç”Ÿæˆæ•ˆæœ
+		//æ•ˆæœå®Œæˆåï¼Œæ˜¾ç¤ºçœŸæ­£å¦å…‹
 		if(tank.index!=7) return;
 		
-		tank.setTankPosition();	//ÉèÖÃÌ¹¿Ë·½ÏòµÄÍ¼Æ¬±³¾°
+		tank.setTankPosition();	//è®¾ç½®å¦å…‹æ–¹å‘çš„å›¾ç‰‡èƒŒæ™¯
 		tank.tankDiv.className=TANK;
 		TankObj[tank.tankDiv.id]={ oTank:tank, tankID:tank.tankDiv.id};	
 		
-		//Ò»Ãëºó·¢Éä×Óµ¯
+		//ä¸€ç§’åå‘å°„å­å¼¹
 		tank.shootTimer=setTimeout(function(){
 			if(tank) tank.shoot(MYTANK);
 		},1000);
@@ -34,7 +34,7 @@ WeaponsFactory.prototype.createTank=function(BaseObj){
 		tank.tankMoveTimer=setInterval(function(){ 
 			if(!tank) { clearInterval(tank.tankMoveTimer); return;}
 			tank.move();
-		},30);//¶¨Ê±ÒÆ¶¯
+		},30);//å®šæ—¶ç§»åŠ¨
 		
 	},200)
 }

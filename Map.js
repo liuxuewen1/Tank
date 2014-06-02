@@ -1,4 +1,4 @@
-// µØÍ¼
+// åœ°å›¾
 
 
 var Map=function(){
@@ -7,9 +7,9 @@ var Map=function(){
 	this.homeBossPos={h:1,w:1,l:12,t:24};
 	this.aFragment=document.createDocumentFragment();
 	
-	//Ã¿Ò»¹Ø¾ßÌåÎ§Ç½Î»ÖÃ
-	//h£º´¹Ö±Î»ÖÃÊıÁ¿£»w£ºË®Æ½Î»ÖÃÊıÁ¿£»l£ºµÚÒ»¸ö×ø±êleft£»t£ºµÚ¶ş¸ö×ø±êtop£»
-	//wall£ºÎ§Ç½£»slab£ºÔ¤ÖÆ°å£»flow£º»¨²İ
+	//æ¯ä¸€å…³å…·ä½“å›´å¢™ä½ç½®
+	//hï¼šå‚ç›´ä½ç½®æ•°é‡ï¼›wï¼šæ°´å¹³ä½ç½®æ•°é‡ï¼›lï¼šç¬¬ä¸€ä¸ªåæ ‡leftï¼›tï¼šç¬¬äºŒä¸ªåæ ‡topï¼›
+	//wallï¼šå›´å¢™ï¼›slabï¼šé¢„åˆ¶æ¿ï¼›flowï¼šèŠ±è‰
 	this.Level={
 		
 		Level1:{
@@ -30,7 +30,7 @@ Map.prototype.init=function(){
 	
 	var now="Level"+this.nowLevel;
 	
-	//Éú³ÉÍâ²ã»·¾³£ºiType-»·¾³ÖÖÀà£¨Î§Ç½¡¢Ô¤ÖÆ°å¡¢»¨²İ£©
+	//ç”Ÿæˆå¤–å±‚ç¯å¢ƒï¼šiType-ç¯å¢ƒç§ç±»ï¼ˆå›´å¢™ã€é¢„åˆ¶æ¿ã€èŠ±è‰ï¼‰
 	for(iType in this.Level[now]){
 		var level=this.Level[now][iType];
 		for(var i=0;i<level.length;i++){
@@ -38,12 +38,12 @@ Map.prototype.init=function(){
 		}
 	}
 	
-	//Éú³ÉÀÏÎÑ±£»¤»·¾³
+	//ç”Ÿæˆè€çªä¿æŠ¤ç¯å¢ƒ
 	for(var i=0;i<this.homeWallPos.length;i++){
 		this.createLifeByClass(this.homeWallPos[i], WALL);			
 	}
 	
-	//Éú³ÉBoss
+	//ç”ŸæˆBoss
 	this.createLifeByClass(this.homeBossPos,HOME);
 	
 	oBox.appendChild(this.aFragment);
@@ -57,18 +57,18 @@ Map.prototype.init=function(){
 	}*/
 }
 
-//µ¥Àà»·¾³ÎïÌåÉú³É·½·¨
+//å•ç±»ç¯å¢ƒç‰©ä½“ç”Ÿæˆæ–¹æ³•
 Map.prototype.createLifeByClass=function(obj, iClass){
 	var left=obj.l,
 		top=obj.t;
 	for(var k=0;k<obj.h;k++){
 		var x=left*BASE,y=top*BASE;
 			
-		//ÔªËØ¼Óµ½ÎÄµµÆ¬¶Î
+		//å…ƒç´ åŠ åˆ°æ–‡æ¡£ç‰‡æ®µ
 		for(var j=0;j<obj.w;j++){
 			var oDiv=createDiv(iClass,x,y);
 			
-			//½«Ã¿¸öÔªËØ¼ÓÈëµ½Íø¸ñ¶ÔÏó
+			//å°†æ¯ä¸ªå…ƒç´ åŠ å…¥åˆ°ç½‘æ ¼å¯¹è±¡
 			if(iClass!=FLOW){
 				var xCenter=x+BASE/2;
 				var yCenter=y+BASE/2;

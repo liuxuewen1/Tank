@@ -1,4 +1,4 @@
-//¸ù¾İbulletID£¬ÕÒµ½TankObj¶ÔÏó
+//æ ¹æ®bulletIDï¼Œæ‰¾åˆ°TankObjå¯¹è±¡
 function getTankObjByBulletID(bulletID){
 	for(var tank in TankObj){
 		if(!TankObj.hasOwnProperty(tank)) return;
@@ -14,7 +14,7 @@ function getTankObjByBulletID(bulletID){
 	return false;
 }
 
-//¸ù¾İtankID£¬ÕÒµ½TankObj¶ÔÏó
+//æ ¹æ®tankIDï¼Œæ‰¾åˆ°TankObjå¯¹è±¡
 function getTankObjByTankID(tankID){
 	for(var tank in TankObj){
 		if(!TankObj.hasOwnProperty(tank)) return;
@@ -24,7 +24,7 @@ function getTankObjByTankID(tankID){
 }
 
 
-//¼ì²âÊÇ·ñÅö×²
+//æ£€æµ‹æ˜¯å¦ç¢°æ’
 function isHit(curObj, speed, attr)
 {
 	var curHalfWidth=parseInt(parseInt(getAttr(curObj,"width"))/2),
@@ -66,7 +66,7 @@ function isHit(curObj, speed, attr)
 		}
 	}
 	
-	//Ôö¼Ó¶¯Ì¬Íø¸ñ
+	//å¢åŠ åŠ¨æ€ç½‘æ ¼
 	var moveGrid=createMoveGrid();
 	
 	var g=[oGrid, moveGrid];
@@ -80,7 +80,7 @@ function isHit(curObj, speed, attr)
 	return { result:true };		
 }
 
-//Ôö¼Ó¶¯Ì¬Íø¸ñ
+//å¢åŠ åŠ¨æ€ç½‘æ ¼
 function createMoveGrid(curIsTank){
 	
 	var moveGrid=new Object();	
@@ -101,7 +101,7 @@ function createMoveGrid(curIsTank){
 	return moveGrid;
 }
 	
-//»ñÈ¡ÔªËØÊôĞÔÖµ
+//è·å–å…ƒç´ å±æ€§å€¼
 function getAttr(obj, attr){
 	if(obj.currentStyle){
 		return obj.currentStyle[attr];
@@ -111,17 +111,17 @@ function getAttr(obj, attr){
 	}
 }
 
-//²éÕÒÔªËØ
+//æŸ¥æ‰¾å…ƒç´ 
 function getEleById(id){
 	return document.getElementById(id);
 }
 
-//Éú³Émµ½nµÄËæ»úÊı
+//ç”Ÿæˆmåˆ°nçš„éšæœºæ•°
 function getRandom(m,n){
 	return Math.floor(Math.random()*(n-m+1)+m);
 }
 
-//´´½¨Div
+//åˆ›å»ºDiv
 function createDiv(iClass,iLeft,iTop){
 	var oDiv=document.createElement("div");
 	oDiv.className=iClass;
@@ -130,7 +130,7 @@ function createDiv(iClass,iLeft,iTop){
 	oDiv.id="div_"+iLeft+"_"+iTop;
 	return oDiv;
 }	
-//¸ù¾İClass²éÕÒÔªËØ£¬·µ»ØÔªËØ¼¯ºÏ
+//æ ¹æ®ClassæŸ¥æ‰¾å…ƒç´ ï¼Œè¿”å›å…ƒç´ é›†åˆ
 function getByClass(oParent, iClass){
 	if(oParent.getElementsByClassName){
 		return oParent.getElementsByClassName(iClass);
