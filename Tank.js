@@ -61,13 +61,13 @@ Tank.prototype.shoot=function(bulletCategory){
 	var y=parseInt(getAttr(this.tankDiv, "top"));
 	switch(this.dir){
 		case 1:x+=13,y-=6;
-			break
+			break;
 		case 2:x+=13,y+=32;
-			break
+			break;
 		case 3:x-=6,y+=13;
-			break
+			break;
 		case 4:x+=32,y+=13;
-			break
+			break;
 	}
 	oBullet.bullet.style.left=x+"px";
 	oBullet.bullet.style.top=y+"px";

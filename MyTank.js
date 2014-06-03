@@ -11,10 +11,8 @@ MyTank.prototype=new WeaponsFactory();
 MyTank.prototype.createMyTank=function(baseObj){
 	var myBaseObj=baseObj || {
 		dir: 1,
-		left: 8*BASE,
 		top: 24*BASE,
-		category: MYTANK,
-		basePos: {x:0, y:0}
+		category: MYTANK
 	}
 	this.createTank(myBaseObj);
 }

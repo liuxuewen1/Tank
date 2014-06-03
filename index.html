@@ -31,18 +31,21 @@
 <script src="MyTank.js" type="text/javascript"></script>
 <script src="Enemy.js" type="text/javascript"></script>
 <script src="Bullet.js" type="text/javascript"></script>
-<script>	
-	window.onload=function(){
-		var map=new Map();
-		map.nowLevel=1;
-		map.init();
-		
-		var myTank=new MyTank();
-		myTank.createMyTank();
-				
-		var enemyTank=new Enemy();
-		enemyTank.createEnemy();
-		
-	}
+<script>
+var Global={
+	
+}
+window.onload=function(){
+	var map=new Map();
+	map.nowLevel=1;
+	map.init();
+	
+	var myTank=new MyTank();
+	//myTank.createMyTank();
+			
+	var enemyTank=new Enemy();
+	enemyTank.createEnemy();
+	Global.enemyTank=enemyTank;	
+}
 </script>
 </html>

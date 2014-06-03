@@ -1,11 +1,11 @@
 //根据bulletID，找到TankObj对象
 function getTankObjByBulletID(bulletID){
 	for(var tank in TankObj){
-		if(!TankObj.hasOwnProperty(tank)) return;
+		if(!TankObj.hasOwnProperty(tank)) continue;
 		var to=TankObj[tank];
 		for(var bID in to){
 			//alert(bID+":"+to[bID]);
-			if(!to.hasOwnProperty(bID)) return;
+			if(!to.hasOwnProperty(bID)) continue;
 			if(to[bID]==bulletID) {
 				return to;
 			}
@@ -17,7 +17,7 @@ function getTankObjByBulletID(bulletID){
 //根据tankID，找到TankObj对象
 function getTankObjByTankID(tankID){
 	for(var tank in TankObj){
-		if(!TankObj.hasOwnProperty(tank)) return;
+		if(!TankObj.hasOwnProperty(tank)) continue;
 		if(tank==tankID) return TankObj[tank];
 	}
 	return false;
