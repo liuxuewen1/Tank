@@ -81,19 +81,18 @@ Bullet.prototype.kill=function(killObj){
 	//如果对方是Tank
 	if(className===TANK) {
 		var Tank=getTankObjByTankID(killObj.id);
-		clearInterval(Tank.oTank.tankMoveTimer);
-		clearTimeout(Tank.oTank.shootTimer);
-		Tank.oTank=Tank[Tank.oTank.tankID]=null;
+		if(!Tank) return;
 		//消灭后新增Tank
 		if(killObj.category===MYTANK){
-			var myTank=new MyTank();
-			//myTank.createMyTank();
+			--Global.myTank.nowCount<0 && (Global.myTank.nowCount=0);
+			Global.myTank.createMyTank();
 		}
 		else{
-			//var enemyTank=new Enemy();
+			clearInterval(Tank.oTank.tankMoveTimer);
+			clearTimeout(Tank.oTank.shootTimer);
+			Tank.oTank=Tank[Tank.oTank.tankID]=null;
 			--Global.enemyTank.nowCount<0 && (Global.enemyTank.nowCount=0);
-			console.log(Global.enemyTank.nowCount);
-			//Global.enemyTank.createEnemy();
+			Global.enemyTank.createEnemy();
 		}
 		oMoveBox.removeChild(killObj);
 	}

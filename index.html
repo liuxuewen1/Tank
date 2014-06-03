@@ -41,11 +41,37 @@ window.onload=function(){
 	map.init();
 	
 	var myTank=new MyTank();
-	//myTank.createMyTank();
+	myTank.createMyTank();
+	Global.myTank=myTank;	
 			
 	var enemyTank=new Enemy();
 	enemyTank.createEnemy();
 	Global.enemyTank=enemyTank;	
+	
+	document.onkeydown=function(ev){
+		var oEvent=ev||event;
+		switch(oEvent.keyCode){
+			case 87://W
+				myTank.oTank.dir=1;
+				myTank.oTank.move();
+				break;
+			case 83://S
+				myTank.oTank.dir=2;
+				myTank.oTank.move();
+				break;
+			case 65://A
+				myTank.oTank.dir=3;
+				myTank.oTank.move();
+				break;
+			case 68://D
+				myTank.oTank.dir=4;
+				myTank.oTank.move();
+				break;
+			case 32://空格键，发射子弹
+				myTank.oTank.shoot(MYTANK);
+				break;
+		}
+	}
 }
 </script>
 </html>

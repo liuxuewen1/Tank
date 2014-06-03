@@ -122,12 +122,13 @@ function getRandom(m,n){
 }
 
 //创建Div
-function createDiv(iClass,iLeft,iTop){
+function createDiv(iClass,iLeft,iTop,id){
 	var oDiv=document.createElement("div");
 	oDiv.className=iClass;
 	oDiv.style.left=iLeft+"px";
 	oDiv.style.top=iTop+"px";
-	oDiv.id="div_"+iLeft+"_"+iTop;
+	var autoID="div_"+iLeft+"_"+iTop;
+	oDiv.id=id?autoID+'_'+id:autoID;
 	return oDiv;
 }	
 //根据Class查找元素，返回元素集合
