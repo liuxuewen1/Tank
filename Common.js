@@ -121,14 +121,14 @@ function getRandom(m,n){
 	return Math.floor(Math.random()*(n-m+1)+m);
 }
 
-//创建Div
-function createDiv(iClass,iLeft,iTop,id){
+//创建Div suffixID：ID的后缀
+function createDiv(iClass,iLeft,iTop,suffixID){
 	var oDiv=document.createElement("div");
 	oDiv.className=iClass;
 	oDiv.style.left=iLeft+"px";
 	oDiv.style.top=iTop+"px";
 	var autoID="div_"+iLeft+"_"+iTop;
-	oDiv.id=id?autoID+'_'+id:autoID;
+	oDiv.id=suffixID?autoID+'_'+suffixID:autoID;
 	return oDiv;
 }	
 //根据Class查找元素，返回元素集合

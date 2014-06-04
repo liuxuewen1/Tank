@@ -54,8 +54,9 @@ WeaponsFactory.prototype.createTank=function(BaseObj){
 		//如果是敌机，则加定时任务
 		if(BaseObj.category===ENEMY){
 			//一秒后发射子弹
-			tank.shootTimer=setTimeout(function(){
-				if(tank) tank.shoot(BaseObj.category);
+			tank.shootTimer=setInterval(function(){
+				if(tank) {tank.shoot(ENEMY);}
+				
 			},1000);
 				
 			tank.tankMoveTimer=setInterval(function(){ 

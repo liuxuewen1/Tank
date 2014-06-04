@@ -66,11 +66,14 @@ Bullet.prototype.die=function(bulletDiv){
 	oMoveBox.removeChild(Tank.oBullet.bullet);
 	Tank.oBullet.bullet=Tank.oBullet=null;
 	
-	//子弹消失以后，所属坦克隔800ms后继续发射子弹
-	setTimeout(function(){
-		if(!Tank.oTank) return;
-		Tank.oTank.shoot(Tank.oTank.tankDiv.category);
-	},1000);
+	if(Tank.oTank && Tank.oTank.category===ENEMY){
+		//子弹消失以后，所属坦克隔800ms后继续发射子弹
+		setTimeout(function(){
+			if(!Tank.oTank) return;
+			Tank.oTank.shoot(Tank.oTank.tankDiv.category);
+		},1000);
+	}
+	
 }
 
 //消灭对方

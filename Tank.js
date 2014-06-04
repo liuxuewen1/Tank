@@ -5,7 +5,7 @@
 var Tank=function(){
 	this.width=this.height=BASE*2;	//宽、高
 	this.dir;		//方向：1-上、2-下、3-左、4-右
-	this.speed=BASE/2;	//速度
+	this.speed=BASE/4;	//速度
 	this.type;	//坦克种类：1、2、3
 	this.basePos=null;	//不同种类的坦克背景图片显示的x、y坐标基本位置（坦克材料对象）
 	this.index=0;	//坦克孵化效果次数计数，6次以后便创造出来
@@ -29,16 +29,16 @@ Tank.prototype.move=function(){
 		return;
 	}
 	
-	//如果不是FLOW或者不是自己一伙，则无法继续，改变方向
 	if(this.tankDiv.category===ENEMY) {
+		//如果不是FLOW或者不是自己一伙，则无法继续，改变方向
 		this.setDir();
 	}
-	this.setTankPosition();
 }
 
 //改变方向
-Tank.prototype.setDir=function(){
-	this.dir=getRandom(1,4);
+Tank.prototype.setDir=function(dir){
+	this.dir=dir?dir:getRandom(1,4);
+	this.setTankPosition();
 }
 
 //设置坦克方向的图片背景
@@ -46,10 +46,10 @@ Tank.prototype.setTankPosition=function(){
 	this.tankDiv.style.backgroundPosition=(this.basePos.x-32*(this.dir-1))+"px "+this.basePos.y+"px";
 }
 
-//创建子弹
-Tank.prototype.createBullet=function(bulletCategory){
+//创建子弹 suffix：id的后缀
+Tank.prototype.createBullet=function(bulletCategory,suffixID){
 	var oBullet=new Bullet();
-	oBullet.bullet=createDiv(BULLET,0,0);
+	oBullet.bullet=createDiv(BULLET,0,0,suffixID);
 	oBullet.bullet.category=oBullet.category=bulletCategory;
 	oMoveBox.appendChild(oBullet.bullet);
 	return oBullet;
@@ -57,8 +57,8 @@ Tank.prototype.createBullet=function(bulletCategory){
 
 //坦克的射击方法
 Tank.prototype.shoot=function(bulletCategory){
-	if(TankObj[this.tankDiv.id].oBullet) return;	//如果该tank射击了子弹，则不继续出
-	var oBullet=this.createBullet(bulletCategory);
+	if(!TankObj[this.tankDiv.id] || TankObj[this.tankDiv.id].oBullet) return;	//如果该tank射击了子弹，则不继续出
+	var oBullet=this.createBullet(bulletCategory,this.tankDiv.id);
 	
 	var x=parseInt(getAttr(this.tankDiv, "left"));
 	var y=parseInt(getAttr(this.tankDiv, "top"));
