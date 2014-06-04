@@ -33,7 +33,6 @@ WeaponsFactory.prototype.createTank=function(BaseObj){
 	this.totalCount++;
 	
 	var tank=new Tank();
-	tank.dir=BaseObj.dir;
 	tank.basePos=basePos;
 	
 	tank.tankDiv=createDiv("copyTank",left,BaseObj.top,this.totalCount);
@@ -47,7 +46,7 @@ WeaponsFactory.prototype.createTank=function(BaseObj){
 		//效果完成后，显示真正坦克
 		if(tank.index!=7) return;
 		clearInterval(tank.tankTimer);
-		tank.setTankPosition();	//设置坦克方向的图片背景
+		tank.setDir(BaseObj.dir);	//设置坦克方向的图片背景
 		tank.tankDiv.className=TANK;
 		TankObj[tank.tankDiv.id]={ oTank:tank, tankID:tank.tankDiv.id};	
 		

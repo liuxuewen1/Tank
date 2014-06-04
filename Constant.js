@@ -11,6 +11,7 @@ var SLAB="slab";
 var ENEMY="enemy";
 var MYTANK="myTank";
 var BULLET="bullet";
+var BULLETWIDTH=BULLETHEIGHT=6;
 var TankObj={};
 var oGrid=new Object();
 var oBox=document.getElementById("box");

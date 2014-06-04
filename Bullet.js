@@ -2,20 +2,17 @@
 *子弹类
 */
 
-var Bullet=function(){
-	this.width=this.height=6;
-	this.dir;
-	this.speed;
+/*var Bullet=function(){
 	this.bullet;
-}
+}*/
 
 //移动
-Bullet.prototype.move=function(){
-	if(!this.bullet) return;
-	var attr=(this.dir==1 || this.dir==2)?"top":"left";	// top left
+var BulletMove=function(baseObj){
+	//if(!this.bullet) return;
+	var attr=(baseObj.dir==1 || baseObj.dir==2)?"top":"left";	// top left
 	var attrVal=parseInt(getAttr(this.bullet,attr));	//获取当前方向上的值
-	var isOverMaxVal=(this.dir==1||this.dir==3)?attrVal<=0:attrVal>=(BASE*26-6);	// 方向：上左 小于最大值0返回true，下右 大于最大值26*16 则返回true		
-	var speed=(this.dir==1||this.dir==3)?-1*this.speed:this.speed;//方向：上、右 速度为负
+	var isOverMaxVal=(baseObj.dir==1||baseObj.dir==3)?attrVal<=0:attrVal>=(BASE*26-6);	// 方向：上左 小于最大值0返回true，下右 大于最大值26*16 则返回true		
+	var speed=(baseObj.dir==1||baseObj.dir==3)?-1*baseObj.speed:baseObj.speed;//方向：上、右 速度为负
 	
 	//检测是否碰撞
 	var isGo={ result:true };	
@@ -58,7 +55,7 @@ Bullet.prototype.move=function(){
 }
 
 //子弹消失
-Bullet.prototype.die=function(bulletDiv){
+var BulletDie=function(bulletDiv){
 	var Tank=getTankObjByBulletID(bulletDiv.id);
 	if(!Tank) return;
 	if(!Tank.oBullet) return;
@@ -77,7 +74,7 @@ Bullet.prototype.die=function(bulletDiv){
 }
 
 //消灭对方
-Bullet.prototype.kill=function(killObj){
+var BulletKill=function(killObj){
 	this.die(this.bullet);
 	
 	var className=killObj.className;

@@ -38,26 +38,21 @@ Tank.prototype.move=function(){
 //改变方向
 Tank.prototype.setDir=function(dir){
 	this.dir=dir?dir:getRandom(1,4);
-	this.setTankPosition();
-}
-
-//设置坦克方向的图片背景
-Tank.prototype.setTankPosition=function(){
 	this.tankDiv.style.backgroundPosition=(this.basePos.x-32*(this.dir-1))+"px "+this.basePos.y+"px";
 }
 
 //创建子弹 suffix：id的后缀
 Tank.prototype.createBullet=function(bulletCategory,suffixID){
-	var oBullet=new Bullet();
-	oBullet.bullet=createDiv(BULLET,0,0,suffixID);
-	oBullet.bullet.category=oBullet.category=bulletCategory;
-	oMoveBox.appendChild(oBullet.bullet);
-	return oBullet;
+	//var oBullet=new Bullet();
+	var bullet=createDiv(BULLET,0,0,suffixID);
+	bullet.category=bulletCategory;
+	oMoveBox.appendChild(bullet);
+	return bullet;
 }
 
 //坦克的射击方法
 Tank.prototype.shoot=function(bulletCategory){
-	if(!TankObj[this.tankDiv.id] || TankObj[this.tankDiv.id].oBullet) return;	//如果该tank射击了子弹，则不继续出
+	if(!TankObj[this.tankDiv.id]) return;	//如果该tank射击了子弹，则不继续出
 	var oBullet=this.createBullet(bulletCategory,this.tankDiv.id);
 	
 	var x=parseInt(getAttr(this.tankDiv, "left"));
@@ -72,13 +67,121 @@ Tank.prototype.shoot=function(bulletCategory){
 		case 4:x+=32,y+=13;
 			break;
 	}
-	oBullet.bullet.style.left=x+"px";
-	oBullet.bullet.style.top=y+"px";
-	oBullet.bullet.id="div_"+x+"_"+y;
-	TankObj[this.tankDiv.id].oBullet=oBullet;
-	TankObj[this.tankDiv.id].bulletID=oBullet.bullet.id;
-	oBullet.dir=this.dir;
-	oBullet.speed=2*this.speed;
-	oBullet.move();
-	oBullet.bulletTimer=setInterval(function(){oBullet.move()},30);
+	oBullet.style.left=x+"px";
+	oBullet.style.top=y+"px";
+	oBullet.id="div_"+x+"_"+y+'_'+this.tankDiv.id;
+	//TankObj[this.tankDiv.id].oBullet=oBullet;
+	TankObj[this.tankDiv.id].bulletID=oBullet.id;
+	
+	var baseObj={};
+	baseObj.dir=this.dir;
+	baseObj.speed=2*this.speed;
+	baseObj.bullet=oBullet;
+	BulletMove(baseObj);
+	oBullet.bulletTimer=setInterval(function(){BulletMove(baseObj)},30);
+}
+
+
+//移动
+function BulletMove(baseObj){
+	//if(!this.bullet) return;
+	var attr=(baseObj.dir==1 || baseObj.dir==2)?"top":"left";	// top left
+	var attrVal=parseInt(getAttr(baseObj.bullet,attr));	//获取当前方向上的值
+	var isOverMaxVal=(baseObj.dir==1||baseObj.dir==3)?attrVal<=0:attrVal>=(BASE*26-6);	// 方向：上左 小于最大值0返回true，下右 大于最大值26*16 则返回true		
+	var speed=(baseObj.dir==1||baseObj.dir==3)?-1*baseObj.speed:baseObj.speed;//方向：上、右 速度为负
+	
+	//检测是否碰撞
+	var isGo={ result:true };	
+	isGo=isHit(baseObj.bullet, speed, attr); 
+	
+	//是否到达边界
+	if(isOverMaxVal){
+		BulletDie(baseObj.bullet);
+		return;
+	}
+	
+	if(isGo.result){		
+		baseObj.bullet.style[attr]=attrVal+speed+'px';
+		return;
+	}
+	
+	//false-被阻挡
+	if(!isGo.result){
+		var eleDiv=document.getElementById(isGo.eleID),
+			eleClass=eleDiv.className,
+			eleCategory=eleDiv.category,
+			bulletCategory=baseObj.bullet.category;
+			
+		if(eleClass==SLAB){
+			//如果是预制板-Slab，则自己灭亡
+			BulletDie(baseObj.bullet);
+		}
+		else if(eleClass==WALL || bulletCategory!=eleCategory){
+			//如果是砖块-Wall或其他不是同类的物体
+			if(oGrid[isGo.iGrid] && isGo.eleID===oGrid[isGo.iGrid][isGo.index]) {
+				oGrid[isGo.iGrid].splice(isGo.index,1);			
+			}
+			BulletKill(eleDiv);
+		}
+		else{
+			baseObj.bullet.style[attr]=attrVal+speed+'px';
+		}
+	}
+	
+		
+	//子弹消失
+	function BulletDie(bulletDiv){
+		var Tank=getTankObjByBulletID(bulletDiv.id);
+		if(!Tank || !bulletDiv.parentNode) return;
+		
+		clearInterval(bulletDiv.bulletTimer);
+		oMoveBox.removeChild(bulletDiv);
+		bulletDiv=null;
+		
+		if(Tank.oTank && Tank.oTank.category===ENEMY){
+			//子弹消失以后，所属坦克隔800ms后继续发射子弹
+			setTimeout(function(){
+				if(!Tank.oTank) return;
+				Tank.oTank.shoot(bulletDiv.category);
+			},1000);
+		}
+		
+	}
+	
+	//消灭对方
+	function BulletKill(killObj){
+		BulletDie(baseObj.bullet);
+		
+		var className=killObj.className;
+		//如果对方是Tank
+		if(className===TANK) {
+			var Tank=getTankObjByTankID(killObj.id);
+			if(!Tank) return;
+			//消灭后新增Tank
+			if(killObj.category===MYTANK){
+				--Global.myTank.nowCount<0 && (Global.myTank.nowCount=0);
+				Global.myTank.createMyTank();
+			}
+			else{
+				clearInterval(Tank.oTank.tankMoveTimer);
+				clearTimeout(Tank.oTank.shootTimer);
+				Tank.oTank=Tank[Tank.oTank.tankID]=null;
+				--Global.enemyTank.nowCount<0 && (Global.enemyTank.nowCount=0);
+				Global.enemyTank.createEnemy();
+			}
+			oMoveBox.removeChild(killObj);
+		}
+		else if(className===BULLET){
+			//var Tank=getTankObjByBulletID(killObj.id);
+			//if(!Tank.oBullet) return;
+			BulletDie(baseObj.bullet);
+		}
+		else{
+			oBox.removeChild(killObj);
+		}
+		killObj=null;
+		
+	}
+	 
+	
 }
