@@ -5,7 +5,7 @@
 <title>无标题文档</title>
 <style>
 *{margin:0; padding:0;}
-#box{ width:416px; height:416px; position:relative; background:black; margin-left:10px;}
+#box{ width:416px; height:416px; position:relative; background:black; margin-left:10px; overflow:hidden;}
 #box div{ width:16px; height:16px; position:absolute; background:url(images/tankAll.gif) no-repeat 0 -96px;}
 #box #moveBox { width:416px; height:416px; position:relative; background:none;}
 #box .wall{ background-position:0 -96px;}
@@ -14,12 +14,21 @@
 #box .home{ width:32px; height:32px; background-position:-256px 0;}
 #box .tank,#box .copyTank{ width:32px; height:32px; background-position:-256px -32px;}
 #box .bullet{ width:6px; height:6px; background-position:-80px -96px;}
+
+#box #divImg{width:300px; height:200px; position:absolute; left:60px; top:416px; vertical-align:middle;background:none; overflow:hidden;}
+#box #divImg span{ font-size:18px; color:#FFCC99; font-weight:bold; position:relative; left:130px; top:30px;}
+#box #divImg span:hover{cursor:pointer;}
 </style>
 </head>
 
 <body>
 <div id="box">
 	<div id="moveBox"></div>
+	<div id="divImg">
+		<img src="images/tank.png" id='imgTank'/>
+		<span>Start</span>
+	</div>
+	
 </div>
 </body>
 <script src="Constant.js" type="text/javascript"></script>
@@ -36,41 +45,58 @@ var Global={
 	
 }
 window.onload=function(){
-	var map=new Map();
-	map.nowLevel=2;
-	map.init();
+	var oImg=document.getElementById('divImg');
+	var oStart=oImg.children[1];
+	oStart.onclick=function(){
+		var height=parseInt(getStyle(oImg,'height'));
+		alert(height);
+		move(oImg,{height:0},function(){
+			oImg.style.display='none';
+			beginFn();
+		});
+	}
 	
-	var myTank=new MyTank();
-	myTank.createMyTank();
-	Global.myTank=myTank;	
-			
-	var enemyTank=new Enemy();
-	enemyTank.createEnemy();
-	Global.enemyTank=enemyTank;	
+	move(oImg,{top:100});	
 	
-	document.onkeydown=function(ev){
-		var oEvent=ev||event;
-		switch(oEvent.keyCode){
-			case 87://W
-				myTank.oTank.dir!=1 && myTank.oTank.setDir(1);
-				myTank.oTank.move();
-				break;
-			case 83://S
-				myTank.oTank.dir!=2 && myTank.oTank.setDir(2);
-				myTank.oTank.move();
-				break;
-			case 65://A
-				myTank.oTank.dir!=3 && myTank.oTank.setDir(3);
-				myTank.oTank.move();
-				break;
-			case 68://D
-				myTank.oTank.dir!=4 && myTank.oTank.setDir(4);
-				myTank.oTank.move();
-				break;
-			case 32://空格键，发射子弹
-				myTank.oTank.shoot(MYTANK);
-				break;
+	function beginFn(){
+		/**/
+		var map=new Map();
+		map.nowLevel=2;
+		map.init();
+		
+		var myTank=new MyTank();
+		myTank.createMyTank();
+		Global.myTank=myTank;	
+				
+		var enemyTank=new Enemy();
+		enemyTank.createEnemy();
+		Global.enemyTank=enemyTank;	
+		
+		document.onkeydown=function(ev){
+			var oEvent=ev||event;
+			switch(oEvent.keyCode){
+				case 87://W
+					myTank.oTank.dir!=1 && myTank.oTank.setDir(1);
+					myTank.oTank.move();
+					break;
+				case 83://S
+					myTank.oTank.dir!=2 && myTank.oTank.setDir(2);
+					myTank.oTank.move();
+					break;
+				case 65://A
+					myTank.oTank.dir!=3 && myTank.oTank.setDir(3);
+					myTank.oTank.move();
+					break;
+				case 68://D
+					myTank.oTank.dir!=4 && myTank.oTank.setDir(4);
+					myTank.oTank.move();
+					break;
+				case 32://空格键，发射子弹
+					myTank.oTank.shoot(MYTANK);
+					break;
+			}
 		}
+		
 	}
 }
 </script>

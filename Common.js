@@ -157,3 +157,35 @@ function findSame(arr, n){
 	
 	return false;
 }
+
+//匀速运动
+function move(obj,oAttr,fn){
+	clearInterval(obj.timer);
+	
+	obj.timer=setInterval(function(){
+		var speed=6;	
+		var isOver=true;
+		for(var attr in oAttr){		
+			var target=oAttr[attr];
+			var nowVal=parseInt(getStyle(obj,attr));
+			target>nowVal?speed=6:speed=-6;  		
+			if(Math.abs(target-nowVal)<=Math.abs(speed)){
+				obj.style[attr]=target+"px";
+				continue;
+			}
+			else{
+				isOver=false;
+				obj.style[attr]=nowVal+speed+"px";
+			}
+		}
+		if(isOver){
+			fn && fn();
+			clearInterval(obj.timer);			
+		}
+	},30);
+}
+
+function getStyle(obj,attr){
+	return obj.currentStyle?obj.currentStyle[attr]:getComputedStyle(obj,false)[attr];
+}
+	

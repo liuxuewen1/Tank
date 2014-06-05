@@ -116,12 +116,16 @@ function BulletMove(baseObj){
 			//如果是预制板-Slab，则自己灭亡
 			BulletDie(baseObj.bullet);
 		}
-		else if(eleClass==WALL || bulletCategory!=eleCategory){
-			//如果是砖块-Wall或其他不是同类的物体
-			if(oGrid[isGo.iGrid] && isGo.eleID===oGrid[isGo.iGrid][isGo.index]) {
-				oGrid[isGo.iGrid].splice(isGo.index,1);			
-			}
+		else if(eleClass==WALL){
+			oGrid[isGo.iGrid].splice(isGo.index,1);	
 			BulletKill(eleDiv);
+		}
+		else if(eleClass==TANK && bulletCategory!=eleCategory){
+			BulletKill(eleDiv);
+		}
+		else if(eleClass==BULLET && bulletCategory!=eleCategory){
+			BulletDie(baseObj.bullet);
+			BulletDie(eleDiv);
 		}
 		else{
 			baseObj.bullet.style[attr]=attrVal+speed+'px';
@@ -132,17 +136,21 @@ function BulletMove(baseObj){
 	//子弹消失
 	function BulletDie(bulletDiv){
 		var Tank=getTankObjByBulletID(bulletDiv.id);
-		if(!Tank || !bulletDiv.parentNode) return;
+		if(!Tank || !bulletDiv || !bulletDiv.parentNode) return;
 		
 		clearInterval(bulletDiv.bulletTimer);
-		oMoveBox.removeChild(bulletDiv);
+		try{
+			oMoveBox.removeChild(bulletDiv);
+		}catch(ex){ 
+			return;
+		}
 		bulletDiv=null;
 		
-		if(Tank.oTank && Tank.oTank.category===ENEMY){
+		if(Tank.oTank && Tank.oTank.tankDiv.category===ENEMY){
 			//子弹消失以后，所属坦克隔800ms后继续发射子弹
 			setTimeout(function(){
 				if(!Tank.oTank) return;
-				Tank.oTank.shoot(bulletDiv.category);
+				Tank.oTank.shoot(Tank.oTank.tankDiv.category);
 			},1000);
 		}
 		
