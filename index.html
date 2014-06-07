@@ -15,8 +15,9 @@
 #box .tank,#box .copyTank{ width:32px; height:32px; background-position:-256px -32px;}
 #box .bullet{ width:6px; height:6px; background-position:-80px -96px;}
 
-#box #divImg{width:300px; height:200px; position:absolute; left:60px; top:416px; vertical-align:middle;background:none; overflow:hidden;}
-#box #divImg span{ font-size:18px; color:#FFCC99; font-weight:bold; position:relative; left:130px; top:30px;}
+#box #divImg{width:416px; height:416px; position:absolute; left:0; top:0; vertical-align:middle; overflow:hidden; z-index:999; background:#000;}
+#box #divImg img{ left:60px; top:416px; position:relative; }
+#box #divImg span{ font-size:22px; color:#FFCC99; font-weight:bold; position:relative; left:0px; top:486px; letter-spacing:6px;}
 #box #divImg span:hover{cursor:pointer;}
 </style>
 </head>
@@ -45,24 +46,29 @@ var Global={
 	
 }
 window.onload=function(){
-	var oImg=document.getElementById('divImg');
-	var oStart=oImg.children[1];
+	var oDiv=document.getElementById('divImg');
+	var oImg=document.getElementById('imgTank');
+	var oStart=oDiv.children[1];
+	
+	var map=new Map();
+	map.nowLevel=1;
+	map.init();
+	
 	oStart.onclick=function(){
-		var height=parseInt(getStyle(oImg,'height'));
-		alert(height);
-		move(oImg,{height:0},function(){
-			oImg.style.display='none';
+		var height=parseInt(getStyle(oDiv,'height'));
+		move(oDiv,{height:0},function(){
 			beginFn();
 		});
 	}
 	
 	move(oImg,{top:100});	
+	move(oStart,{top:170});	
 	
 	function beginFn(){
-		/**/
+		/*
 		var map=new Map();
 		map.nowLevel=2;
-		map.init();
+		map.init();*/
 		
 		var myTank=new MyTank();
 		myTank.createMyTank();

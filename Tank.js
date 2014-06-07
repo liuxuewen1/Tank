@@ -23,7 +23,7 @@ Tank.prototype.move=function(){
 	
 	//检测是否碰撞
 	isGo=isHit(this.tankDiv, speed, attr); 
-	
+		
 	if(attrVal!=maxVal && isGo.result){		
 		this.tankDiv.style[attr]=attrVal+speed+'px';
 		return;
