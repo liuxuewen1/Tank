@@ -12,7 +12,7 @@
 #box .slab{ background-position:-16px -96px;}
 #box .flow{ background-position:-32px -96px;}
 #box .home{ width:32px; height:32px; background-position:-256px 0;}
-#box .tank,#box .copyTank{ width:32px; height:32px; background-position:-256px -32px;}
+#box .myTank,#box .enemy,#box .copyTank{ width:32px; height:32px; background-position:-256px -32px;}
 #box .bullet{ width:6px; height:6px; background-position:-80px -96px;}
 
 #box #divImg{width:416px; height:416px; position:absolute; left:0; top:0; vertical-align:middle; overflow:hidden; z-index:999; background:#000;}
@@ -53,13 +53,14 @@ window.onload=function(){
 	var map=new Map();
 	map.nowLevel=1;
 	map.init();
-	
-	oStart.onclick=function(){
+	oDiv.style.display='none';
+	beginFn();
+	/*oStart.onclick=function(){
 		var height=parseInt(getStyle(oDiv,'height'));
 		move(oDiv,{height:0},function(){
 			beginFn();
 		});
-	}
+	}*/
 	
 	move(oImg,{top:100});	
 	move(oStart,{top:170});	

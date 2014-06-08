@@ -23,10 +23,46 @@ function getTankObjByTankID(tankID){
 	return false;
 }
 
+//检测碰撞
+/*function isHit(obj,speed,attr){
+	var oBox=document.getElementById('box');
+	var aDiv=oBox.getElementsByTagName('div');
+	var l=obj.offsetLeft;
+	var t=obj.offsetTop;
+	if(attr=='top'){
+		t+=speed;
+	}else if(attr=='left'){
+		l+=speed;
+	}
+	
+	var l1=l+obj.offsetWidth;
+	var r1=l;
+	var t1=t+obj.offsetHeight;
+	var b1=t;
+	//console.log(l1+' '+r1+' '+t1+' '+b1);
+	for(var i=0,len=aDiv.length;i<len;i++){
+		var oDiv=aDiv[i];
+		if(!oDiv.className || oDiv===obj) continue;
+		var l2=oDiv.offsetLeft,
+			r2=oDiv.offsetLeft+oDiv.offsetWidth,
+			t2=oDiv.offsetTop,
+			b2=oDiv.offsetTop+oDiv.offsetHeight;
+		if(l1<=l2 || t1<=t2 || r1>=r2 || b1>=b2){
+			continue;
+		}else{
+	//console.log(l2+' '+r2+' '+t2+' '+b2);
+			return {result:false ,eleID:oDiv.id}
+		}
+		
+	}
+	return {result:true};
+}*/
+
 
 //检测是否碰撞
-function isHit(curObj, speed, attr)
-{
+function isHit(curObj, speed, dir)
+{	
+	var attr=(dir==1 || dir==2)?"top":"left";	//方向：上下 对top操作，左右 对left操作
 	var curHalfWidth=parseInt(parseInt(getAttr(curObj,"width"))/2),
 		xCenter=parseInt(getAttr(curObj,"left"))+curHalfWidth,
 		yCenter=parseInt(getAttr(curObj,"top"))+curHalfWidth,
@@ -34,13 +70,28 @@ function isHit(curObj, speed, attr)
 		minDy,
 		xGrid=Math.ceil(xCenter/(BASE*2)),
 		yGrid=Math.ceil(yCenter/(BASE*2)),
-		curIsTank=(curObj.className===TANK);
+		curIsTank=(curObj.className==MYTANK || curObj.className==ENEMY );
+		//curIsTank=(curObj.className=='copyTank');
 		
 	if(curIsTank) {
 		attr=="left"? xCenter+=speed : yCenter+=speed;
 	}
-	
-	var aCompare=["grid_"+(xGrid-1)+"_"+(yGrid-1),"grid_"+xGrid+"_"+(yGrid-1),"grid_"+(xGrid+1)+"_"+(yGrid-1),"grid_"+(xGrid-1)+"_"+yGrid,"grid_"+xGrid+"_"+yGrid,"grid_"+(xGrid+1)+"_"+yGrid,"grid_"+(xGrid-1)+"_"+(yGrid+1),"grid_"+xGrid+"_"+(yGrid+1),"grid_"+(xGrid+1)+"_"+(yGrid+1)];
+	var aCompare=null;
+	switch(dir){
+		case 1://上
+			aCompare=["grid_"+xGrid+"_"+yGrid,"grid_"+(xGrid-1)+"_"+(yGrid-1),"grid_"+xGrid+"_"+(yGrid-1),"grid_"+(xGrid+1)+"_"+(yGrid-1)];
+			break;
+		case 2://下
+			aCompare=["grid_"+xGrid+"_"+yGrid,"grid_"+(xGrid-1)+"_"+(yGrid+1),"grid_"+xGrid+"_"+(yGrid+1),"grid_"+(xGrid+1)+"_"+(yGrid+1)];
+			break;
+		case 3://左
+			aCompare=["grid_"+xGrid+"_"+yGrid,"grid_"+(xGrid-1)+"_"+(yGrid-1),"grid_"+(xGrid-1)+"_"+yGrid,"grid_"+(xGrid-1)+"_"+(yGrid+1)];
+			break;
+		case 4://右
+			aCompare=["grid_"+xGrid+"_"+yGrid,"grid_"+(xGrid+1)+"_"+(yGrid-1),"grid_"+(xGrid+1)+"_"+yGrid,"grid_"+(xGrid+1)+"_"+(yGrid+1)];
+			break;
+	}
+	/*var aCompare=["grid_"+(xGrid-1)+"_"+(yGrid-1),"grid_"+xGrid+"_"+(yGrid-1),"grid_"+(xGrid+1)+"_"+(yGrid-1),"grid_"+(xGrid-1)+"_"+yGrid,"grid_"+xGrid+"_"+yGrid,"grid_"+(xGrid+1)+"_"+yGrid,"grid_"+(xGrid-1)+"_"+(yGrid+1),"grid_"+xGrid+"_"+(yGrid+1),"grid_"+(xGrid+1)+"_"+(yGrid+1)];*/
 	
 	function isExist(objGrid){
 		for(var k=0;k<aCompare.length;k++){

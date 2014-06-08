@@ -47,8 +47,8 @@ WeaponsFactory.prototype.createTank=function(BaseObj){
 		if(tank.index!=7) return;
 		clearInterval(tank.tankTimer);
 		tank.setDir(BaseObj.dir);	//设置坦克方向的图片背景
-		tank.tankDiv.className=TANK;
-		TankObj[tank.tankDiv.id]={ oTank:tank, tankID:tank.tankDiv.id};	
+		tank.tankDiv.className=BaseObj.category;
+		//TankObj[tank.tankDiv.id]={ oTank:tank, tankID:tank.tankDiv.id};	
 		
 		//如果是敌机，则加定时任务
 		if(BaseObj.category===ENEMY){
